@@ -23,15 +23,27 @@ jobs:
         run: |
           az group create --name ${{ secrets.AZURE_RESOURCE_GROUP }} --location ${{ secrets.AZURE_LOCATION }}
 
+      - name: Ensure Container Apps Environment exists
+        run: |
+          ENV_NAME="${{ secrets.AZURE_CONTAINERAPPS_ENVIRONMENT }}"
+          RG="${{ secrets.AZURE_RESOURCE_GROUP }}"
+          LOCATION="${{ secrets.AZURE_LOCATION }}"
+          echo "Checking for Container Apps Environment: $ENV_NAME in Resource Group: $RG"
+          if ! az containerapp env show --name "$ENV_NAME" --resource-group "$RG" > /dev/null 2>&1; then
+            echo "Container Apps Environment does not exist. Creating new environment..."
+            az containerapp env create --name "$ENV_NAME" --resource-group "$RG" --location "$LOCATION"
+          else
+            echo "Container Apps Environment exists."
+          fi
+
       - name: Deploy or Update Container App
         run: |
-          # Define variables for clarity
           IMAGE="ghcr.io/${{ github.repository }}/bicep-copilot:latest"
           RG="${{ secrets.AZURE_RESOURCE_GROUP }}"
           APP_NAME="${{ secrets.AZURE_CONTAINERAPP_NAME }}"
           ENVIRONMENT="${{ secrets.AZURE_CONTAINERAPP_NAME }}"
 
-          # Check if the container app exists.
+          # Check if the Container App exists.
           if az containerapp show --name "$APP_NAME" --resource-group "$RG" > /dev/null 2>&1; then
             echo "Container App exists. Updating the image..."
             az containerapp update \
@@ -39,7 +51,7 @@ jobs:
               --resource-group "$RG" \
               --image "$IMAGE"
           else
-            echo "Container App does not exist. Creating a new container app..."
+            echo "Container App does not exist. Creating a new Container App..."
             az containerapp create \
               --name "$APP_NAME" \
               --resource-group "$RG" \
