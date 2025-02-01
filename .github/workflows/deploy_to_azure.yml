@@ -57,6 +57,7 @@ jobs:
               --resource-group "$RG" \
               --environment "$ENVIRONMENT" \
               --image "$IMAGE" \
+              --registry-server "ghcr.io" \
               --ingress external \
               --target-port 80 \
               --min-replicas 0 \
