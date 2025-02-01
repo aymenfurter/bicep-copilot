@@ -1,0 +1,10 @@
+.git
+.gitignore
+.env
+README.md
+Dockerfile
+.dockerignore
+*.md
+.bicep-copilot/
+bin/
+tmp/
