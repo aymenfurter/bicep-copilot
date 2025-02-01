@@ -15,7 +15,6 @@
 </div>
 
 ---
-
 ## Overview
 
 Bicep Copilot is a sample project written in Go designed to extend GitHub Copilot by providing real-time, up-to-date details about Bicep code. Many developers face challenges due to outdated Bicep documentation when writing infrastructure-as-code. This tool dynamically retrieves and indexes the latest Bicep documentation from a configured repository and uses an AI-driven agent to supply precise information and suggestions based on current content.
