@@ -10,7 +10,6 @@
   [![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
   
   [Quickstart](#-quickstart) •
-  [Architecture](#-architecture) •
   [Installation](#-installation) •
   [Pipeline Configuration](#-pipeline-configuration)
 </div>
