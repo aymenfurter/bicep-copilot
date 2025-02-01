@@ -1,0 +1,45 @@
+name: Go Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.22'
+        cache: true
+
+    - name: Install dependencies
+      run: go mod download
+
+    - name: Set environment variables for tests
+      run: |
+        echo "PORT=8080" >> $GITHUB_ENV
+        echo "FQDN=https://example.com" >> $GITHUB_ENV
+        echo "CLIENT_ID=test-client" >> $GITHUB_ENV
+        echo "CLIENT_SECRET=test-secret" >> $GITHUB_ENV
+        echo "ENVIRONMENT=production" >> $GITHUB_ENV
+        echo "REPO_OWNER=owner" >> $GITHUB_ENV
+        echo "REPO_NAME=repo" >> $GITHUB_ENV
+        echo "REPO_BRANCH=main" >> $GITHUB_ENV
+        echo "REPO_PATH=docs" >> $GITHUB_ENV
+        echo "OPENAI_API_KEY=test-key" >> $GITHUB_ENV
+
+    - name: Run tests
+      run: go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+
+    - name: Upload coverage report
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.txt
+        flags: unittests
