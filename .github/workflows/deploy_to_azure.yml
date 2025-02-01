@@ -25,7 +25,7 @@ jobs:
 
       - name: Ensure Container Apps Environment exists
         run: |
-          ENV_NAME="${{ secrets.AZURE_CONTAINERAPPS_ENVIRONMENT }}"
+          ENV_NAME="${{ secrets.AZURE_CONTAINERAPP_NAME }}"
           RG="${{ secrets.AZURE_RESOURCE_GROUP }}"
           LOCATION="${{ secrets.AZURE_LOCATION }}"
           echo "Checking for Container Apps Environment: $ENV_NAME in Resource Group: $RG"
