@@ -18,7 +18,11 @@ jobs:
       - name: Set Azure Subscription
         run: |
           az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      
+
+      - name: Create Resource Group if it doesn't exist
+        run: |
+          az group create --name ${{ secrets.AZURE_RESOURCE_GROUP }} --location ${{ secrets.AZURE_LOCATION }}
+
       - name: Update Container App with New Image
         run: |
           az containerapp update \
